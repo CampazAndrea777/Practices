@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First THREE JS</title>
+    <link rel="icon" href="./src/img/icon.png" type="image/png">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/css/myStyle.css">
+    <!-- With this line of code we can have the basic code of THREEJS-->
+    <script src="./src/libs/build/three.min.js"></script>
+    <!-- Controls -->
+    <script src="./src/libs/controls/three.js"></script>
+    <script src="./src/libs/controls/OrbitControls.js"></script>
+    <!-- With this import of js file, We can apply the elements of THREEJS-->
+    <script src="./src/js/main.js"></script>
+</head>
+
+<body onload="start()">
+    <canvas width="800" height="600" class="webgl"></canvas>
+    <nav class="navbar navbar-dark bg-dark fixed-top justify-content-center">
+        <ul class="nav">
+            <li class="nav-item">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Create Objets
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a data-bs-toggle="modal" data-bs-target="#modalCubo"
+                                                class="dropdown-item">Cube</a></li>
+                                                <li><a data-bs-toggle="modal" data-bs-target="#modalTorus"
+                                                    class="dropdown-item">Torus</a></li>
+                                        <li><a data-bs-toggle="modal" data-bs-target="#modalCone"
+                                            class="dropdown-item">Cone</a></li>
+                                        <li><a class="dropdown-item" onclick="createObjects('Vector')">Vector</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </li>
+            <li class="nav-item">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Transformations
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a id="transform" class="dropdown-item disabled" data-bs-toggle="modal"
+                                                data-bs-target="#transformationModal"
+                                                class="dropdown-item">Translate</a></li>
+                                        <li><a id="rotate" class="dropdown-item disabled" href="#">Rotation</a></li>
+                                        <li><a id="scale" class="dropdown-item disabled" href="#">Scale</a></li>
+                                        <li><a id="scale" class="dropdown-item" href="#">Change Color</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </li>
+        </ul>
+    </nav>
+    <!--Modales-->
+    <div class="modal fade" id="modalCubo" tabindex="-1" aria-labelledby="modalCuboLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCuboLabel">Create Object</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" type="text" name="anchoCubo" id="anchoCubo" placeholder="x (Ancho)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="text" name="altoCubo" id="altoCubo" placeholder="y (Alto)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="text" name="profCubo" id="profCubo" placeholder="z (Profundidad)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="text" name="NumeroDeCubos" id="NumeroDeCubos" placeholder="(Cantidad)">
+                        </div>
+                    </div>
+                    <br>
+                    <input class="form-control" type="color" name="colorCub" id="colorCub">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="getProperties()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalTorus" tabindex="-1" aria-labelledby="modalTorusLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTorusLabel">Create Object</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control inputTorus" type="text" name="radioTorus" id="radioTorus" placeholder="x (radio)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputTorus" type="text" name="tuboTorus" id="tuboTorus" placeholder="y (Tubo)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputTorus" type="text" name="SegmentosRTorus" id="SegmentoRTorus" placeholder="z(SegmentosR)">
+                        </div> 
+                         <div class="col">
+                            <input class="form-control inputTorus" type="text" name="NumeroDeTorus" id="NumeroDeTorus" placeholder="(CANTIDAD)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputTorus" type="text" name="SegmentosTTorus" id="SegmentosTTorus" placeholder="z(SegmentosT)">
+                        </div>
+                      
+                    </div>
+                    <br>
+                    <input class="form-control inputTorus" type="color" name="colorTorus" id="colorTorus">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="getProperties_torus()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalCone" tabindex="-1" aria-labelledby="modalConeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConeLabel">Create Object</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control inputCone" type="text" name="radioCone" id="radioCone" placeholder="x (radio)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputCone" type="text" name="altoCone" id="altoCone" placeholder="y (Alto)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputCone" type="text" name="SegmentosCone" id="SegmentoCone" placeholder="z(Segmentos)">
+                        </div>
+                        <div class="col">
+                            <input class="form-control inputCone" type="text" name="NumeroDeCones" id="NumeroDeCones" placeholder="(Cantidad)">
+                        </div>
+                    </div>
+                    <br>
+                    <input class="form-control inputCone" type="color" name="colorCone" id="colorCone">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="getProperties_cone()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!--Modal Transformations-->
+    <div class="modal fade" id="transformationModal" tabindex="-1" aria-labelledby="transformationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transformationModalLabel">Transformation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <label class="form-label">Select Object</label>
+                            <div class="col">
+                                <select name="objects" id="objects">
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="form-label">Translate</label>
+                            <div class="col">
+                                <input class="form-control transF" type="text" name="posx" id="posx" placeholder="x">
+                            </div>
+                            <div class="col">
+                                <input class="form-control transF" type="text" name="posy" id="posy" placeholder="y">
+                            </div>
+                            <div class="col">
+                                <input class="form-control transF" type="text" name="posz" id="posz" placeholder="z">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="form-label">Change Color</label>
+                            <div class="col">
+                                <input class="Color" type="color" name="Color" id="Color" onchange="ChangeColor('Color')">
+                            </div>
+                        </div>
+                        <label class="form-label">Scale</label>
+                        <div class="col">
+                            <input class="form-control transR" type="text" name="Tamañox" id="tx" placeholder="x">
+                        </div>
+                        <div class="col">
+                            <input class="form-control transR" type="text" name="Tamañoy" id="ty" placeholder="y">
+                        </div>
+                        <div class="col">
+                            <input class="form-control transR" type="text" name="Tamañoz" id="tz" placeholder="z">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="transformations('Translate')">Transformar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
